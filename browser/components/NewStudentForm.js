@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+ 
 export default class NewStudentForm extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +18,14 @@ export default class NewStudentForm extends Component {
     });
   }
   handleSubmit(event) {
+    // alert ('newStudent   :   ' + this.state.firstName)
     event.preventDefault();
+    this.props.addStudent({
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email,
+    })
+    
     this.setState({
       firstName: '',
       lastName: '',

@@ -16,6 +16,7 @@ export default class Main extends Component {
 
     this.selectStudent = this.selectStudent.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.addStudent = this.addStudent.bind(this);
   }
 
   componentDidMount() {
@@ -27,11 +28,26 @@ export default class Main extends Component {
     try {
       const { data } = await axios.get('/student');
       this.setState({ students: data });
-      console.log('THis is the State', this.state);
+      console.log('This is the State from Main', this.state);
     } catch (err) {
       console.error(err);
     }
   }
+  
+  
+  async addStudent(newStudentObj) {
+    console.log('New Student Obj: ',newStudentObj)
+   
+    const res = await axios.post('/student', newStudentObj);
+    console.log('Response from Axios Post ',res)
+
+    const newStudent = res.data;
+    this.setState(prevState => ({
+      student: [...prevState, newStudent]
+    }));
+  }
+  
+  
 
   selectStudent(student) {
     return this.setState({
@@ -51,7 +67,7 @@ export default class Main extends Component {
       <div>
         <h1>Students</h1>
         <button onClick={this.handleClick}>Add Student</button>
-        {this.state.showStudent ? <NewStudentForm /> : null}
+        {this.state.showStudent ? <NewStudentForm addStudent={this.addStudent}/> : null}
         <table>
           <thead>
             <tr>
